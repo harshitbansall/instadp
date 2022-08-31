@@ -21,9 +21,7 @@ class ReturnImage(APIView):
     def post(self, request):
         username = request.data.get('content')
         InstagramUser.objects.create(username=username)
-        currentPath = os.getcwd()
-        bot = instaloader.Instaloader(quiet = True)
-        bot.download_profile(username, profile_pic_only = True)
+        instaloader.Instaloader().download_profile(username, profile_pic_only = True)
         for file in os.listdir(username):
             if ".jpg" in file:
                 img = base64.b64encode(open("{0}/{1}".format(username,file), 'rb').read())
